@@ -1,0 +1,6 @@
+.kube/
+.docker/
+.viminfo
+.bash_history
+infra-repo/
+snap/

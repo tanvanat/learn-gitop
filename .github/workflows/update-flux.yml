@@ -1,0 +1,30 @@
+name: update-flux
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"     # daily 03:00 UTC; adjust as you like
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  components:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
+      - name: Render Flux components
+        id: update
+        run: |
+          flux install --export > ./clusters/my-cluster/flux-system/gotk-components.yaml
+          echo "flux_version=$(flux -v)" >> $GITHUB_OUTPUT
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: update-flux
+          commit-message: "chore(flux): ${{ steps.update.outputs.flux_version }}"
+          title: "Update Flux to ${{ steps.update.outputs.flux_version }}"
+          body: "Automated Flux components update."
+
