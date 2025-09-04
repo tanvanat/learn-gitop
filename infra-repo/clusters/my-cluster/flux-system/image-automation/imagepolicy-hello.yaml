@@ -1,0 +1,13 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: hello-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: hello
+  policy:
+    alphabetical:
+      order: asc
+  filterTags:
+    pattern: '^sha-[a-f0-9]{7}$'

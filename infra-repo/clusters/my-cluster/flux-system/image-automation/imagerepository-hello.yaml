@@ -1,0 +1,11 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: hello
+  namespace: flux-system
+spec:
+  image: ghcr.io/tanvanat/learn-gitop/hello
+  interval: 1m
+  # ถ้า GHCR เป็น private ให้ uncomment:
+   secretRef:
+     name: ghcr-credentials
