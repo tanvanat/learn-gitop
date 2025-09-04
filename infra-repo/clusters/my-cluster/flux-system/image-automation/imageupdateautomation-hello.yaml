@@ -7,11 +7,11 @@ spec:
   interval: 1m
   sourceRef:
     kind: GitRepository
-    name: learn-gitop   # <-- แก้ให้ตรงชื่อ GitRepository ของคุณ
+    name: flux-system
   git:
     checkout:
       ref:
-        branch: main        # <-- แก้ให้ตรง branch ของคุณ
+        branch: main
     commit:
       author:
         name: flux-bot
@@ -21,4 +21,5 @@ spec:
       branch: main
   update:
     strategy: Setters
-    path: ./clusters/my-cluster
+    # ต้องสอดคล้องกับ spec.path ของ Kustomization (ตอนนี้ใช้ ./infra-repo/clusters/my-cluster)
+    path: ./infra-repo/clusters/my-cluster

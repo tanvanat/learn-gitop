@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: hello
   namespace: default
+  labels:
+    app: hello
 spec:
   replicas: 1
   selector:
@@ -13,12 +15,12 @@ spec:
       labels:
         app: hello
     spec:
-      # ถ้า GHCR เป็น private ให้ uncomment และสร้าง secret ghcr-pull ใน namespace default
-       imagePullSecrets:
-         - name: ghcr-pull
+      # ถ้า GHCR เป็น private และมี secret ชื่อ ghcr-pull ใน namespace default ให้ uncomment:
+      # imagePullSecrets:
+      #   - name: ghcr-pull
       containers:
         - name: hello
-          image: ghcr.io/tanvanat/learn-gitop/hello:dev
+          image: ghcr.io/tanvanat/learn-gitop/hello:sha-0000000
           # {"$imagepolicy": "flux-system:hello-policy"}
           ports:
             - name: http

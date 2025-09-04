@@ -6,6 +6,5 @@ metadata:
 spec:
   image: ghcr.io/tanvanat/learn-gitop/hello
   interval: 1m
-  # ถ้า GHCR เป็น private ให้ uncomment:
-   secretRef:
-     name: ghcr-credentials
+  secretRef:
+    name: ghcr-credentials
