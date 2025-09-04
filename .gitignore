@@ -5,3 +5,4 @@ infra-repo/
 snap/
 clusters/my-cluster/
 .ssh/
+.ssh/
