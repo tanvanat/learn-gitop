@@ -16,8 +16,8 @@ spec:
         app: hello
     spec:
       # ถ้า GHCR เป็น private และมี secret ชื่อ ghcr-pull ใน namespace default ให้ uncomment:
-      # imagePullSecrets:
-      #   - name: ghcr-pull
+       imagePullSecrets:
+         - name: ghcr-pull
       containers:
         - name: hello
           image: ghcr.io/tanvanat/learn-gitop/hello:sha-0000000
