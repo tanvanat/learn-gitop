@@ -1,12 +1,5 @@
 .bash_history
-.kube/
 .docker/
 .viminfo
-.bash_history
 infra-repo/
-snap/
-.kube/
-.docker/
-.viminfo
-.bash_history
 snap/
