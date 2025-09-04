@@ -10,17 +10,22 @@
 
 # hlsearch on (H) or off (h):
 ~h
+# Last Search Pattern:
+~MSle0~/flux
+
 # Command Line History (newest to oldest):
 :q
-|2,0,1756955401,,"q"
+|2,0,1756958025,,"q"
+:wq
+|2,0,1756957878,,"wq"
+:%d
+|2,0,1756957874,,"%d"
 :Q
 |2,0,1756955360,,"Q"
-:wq
-|2,0,1756955186,,"wq"
-:%d
-|2,0,1756955180,,"%d"
 
 # Search String History (newest to oldest):
+?/flux
+|2,1,1756957450,47,"flux"
 
 # Expression History (newest to oldest):
 
@@ -30,6 +35,14 @@
 
 # Registers:
 ""1	LINE	0
+	apiVersion: kustomize.config.k8s.io/v1beta1
+	kind: Kustomization
+	resources:
+	  - apps/hello
+	  - flux-system/image-automation
+	  - flux-system/gotk-components.yaml
+|3,1,1,1,6,0,1756957874,"apiVersion: kustomize.config.k8s.io/v1beta1","kind: Kustomization","resources:","  - apps/hello","  - flux-system/image-automation","  - flux-system/gotk-components.yaml"
+"2	LINE	0
 	name: ci-build-push
 	
 	on:
@@ -80,11 +93,11 @@
 	            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev
 	          cache-from: type=gha
 	          cache-to: type=gha,mode=max
-|3,1,1,1,50,0,1756955180,"name: ci-build-push","","on:","  push:","    branches: [ \"main\" ]","  pull_request:","  workflow_dispatch:","","permissions:","  contents: read","  packages: write   # required for GITHUB_TOKEN -> GHCR","","env:","  REGISTRY: ghcr.io","  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/<owner>/<repo>/hello","","jobs:","  build-push:","    runs-on: ubuntu-latest","","    steps:","      - name: Checkout",>35
+|3,0,2,1,50,0,1756955180,"name: ci-build-push","","on:","  push:","    branches: [ \"main\" ]","  pull_request:","  workflow_dispatch:","","permissions:","  contents: read","  packages: write   # required for GITHUB_TOKEN -> GHCR","","env:","  REGISTRY: ghcr.io","  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/<owner>/<repo>/hello","","jobs:","  build-push:","    runs-on: ubuntu-latest","","    steps:","      - name: Checkout",>35
 |<"        uses: actions/checkout@v4","","      - name: Setup Buildx","        uses: docker/setup-buildx-action@v3","","      # Login with built-in GITHUB_TOKEN (no PAT needed)","      - name: Login to GHCR","        uses: docker/login-action@v3","        with:","          registry: ${{ env.REGISTRY }}","          username: ${{ github.actor }}","          password: ${{ secrets.GITHUB_TOKEN }}","","      - name: Prepare tags","        id: vars",>68
 |<"        run: echo \"SHA_SHORT=${GITHUB_SHA::7}\" >> $GITHUB_OUTPUT","","      - name: Build & Push (:sha-XXXXXXX + :main + :dev)","        uses: docker/build-push-action@v6","        with:","          context: ./my-docker-app","          push: ${{ github.event_name != 'pull_request' }}  # push on main/workflow_dispatch","          tags: |","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:sha-${{ steps.vars.outputs.SHA_SHORT }}","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:main",>54
 |<"            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev","          cache-from: type=gha","          cache-to: type=gha,mode=max"
-"2	LINE	0
+"3	LINE	0
 	name: ci-build-push
 	
 	on:
@@ -135,239 +148,273 @@
 	          labels: |
 	            org.opencontainers.image.source=https://github.com/${{ github.repository }}
 	
-|3,0,2,1,50,0,1756954711,"name: ci-build-push","","on:","  push:","    branches: [ \"main\" ]","  workflow_dispatch:","","permissions:","  contents: read","  packages: write","","env:","  REGISTRY: ghcr.io","  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/tanvanat/learn-gitop/hello","","jobs:","  build-push:","    runs-on: ubuntu-latest","","    steps:","      - name: Checkout","        uses: actions/checkout@v4","","      - name: Setup Buildx",>45
+|3,0,3,1,50,0,1756954711,"name: ci-build-push","","on:","  push:","    branches: [ \"main\" ]","  workflow_dispatch:","","permissions:","  contents: read","  packages: write","","env:","  REGISTRY: ghcr.io","  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/tanvanat/learn-gitop/hello","","jobs:","  build-push:","    runs-on: ubuntu-latest","","    steps:","      - name: Checkout","        uses: actions/checkout@v4","","      - name: Setup Buildx",>45
 |<"        uses: docker/setup-buildx-action@v3","","      # ใช้ PAT ของ owner เพื่อกันปัญหา scope","      - name: Login to GHCR (with PAT)","        uses: docker/login-action@v3","        with:","          registry: ${{ env.REGISTRY }}","          username: ${{ github.repository_owner }}        # สำคัญ: owner ของ repo","          password: ${{ secrets.GHCR_TOKEN }}             # PAT: write:packages","","      - name: Prepare tags",>18
 |<"        id: vars","        run: echo \"SHA_SHORT=${GITHUB_SHA::7}\" >> $GITHUB_OUTPUT","","      - name: Build & Push (:dev + :main-<sha>)","        uses: docker/build-push-action@v6","        with:","          context: ./my-docker-app","          push: true","          no-cache: true","          tags: |","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:main-${{ steps.vars.outputs.SHA_SHORT }}","          labels: |",>89
 |<"            org.opencontainers.image.source=https://github.com/${{ github.repository }}",""
 
 # File marks:
-'0  53  0  ~/.github/workflows/ci.yml
-|4,48,53,0,1756955401,"~/.github/workflows/ci.yml"
-'1  53  0  ~/.github/workflows/ci.yml
-|4,49,53,0,1756955362,"~/.github/workflows/ci.yml"
-'2  53  0  ~/.github/workflows/ci.yml
-|4,50,53,0,1756955186,"~/.github/workflows/ci.yml"
-'3  53  0  ~/.github/workflows/ci.yml
-|4,51,53,0,1756955186,"~/.github/workflows/ci.yml"
-'4  1  0  ~/.github/workflows/ci.yml
-|4,52,1,0,1756954718,"~/.github/workflows/ci.yml"
-'5  51  0  ~/.github/workflows/ci.yml
-|4,53,51,0,1756954718,"~/.github/workflows/ci.yml"
-'6  1  0  ~/.github/workflows/ci.yml
-|4,54,1,0,1756954718,"~/.github/workflows/ci.yml"
-'7  51  0  ~/.github/workflows/ci.yml
-|4,55,51,0,1756954718,"~/.github/workflows/ci.yml"
-'8  1  0  ~/.github/workflows/ci.yml
-|4,56,1,0,1756954718,"~/.github/workflows/ci.yml"
-'9  51  0  ~/.github/workflows/ci.yml
-|4,57,51,0,1756954718,"~/.github/workflows/ci.yml"
+'0  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
+|4,48,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
+'1  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
+|4,49,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
+'2  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,50,21,54,1756957970,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+'3  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,51,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+'4  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,52,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+'5  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,53,1,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+'6  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,54,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+'7  30  0  ~/.github/workflows/update-flux.yml
+|4,55,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+'8  53  0  ~/.github/workflows/ci.yml
+|4,56,53,0,1756957452,"~/.github/workflows/ci.yml"
+'9  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,57,21,54,1756956912,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 
 # Jumplist (newest first):
--'  53  0  ~/.github/workflows/ci.yml
-|4,39,53,0,1756955401,"~/.github/workflows/ci.yml"
--'  53  0  ~/.github/workflows/ci.yml
-|4,39,53,0,1756955362,"~/.github/workflows/ci.yml"
--'  53  0  ~/.github/workflows/ci.yml
-|4,39,53,0,1756955186,"~/.github/workflows/ci.yml"
--'  1  0  ~/.github/workflows/ci.yml
-|4,39,1,0,1756955180,"~/.github/workflows/ci.yml"
--'  1  0  ~/.github/workflows/ci.yml
-|4,39,1,0,1756955180,"~/.github/workflows/ci.yml"
--'  1  0  ~/.github/workflows/ci.yml
-|4,39,1,0,1756955180,"~/.github/workflows/ci.yml"
--'  51  0  ~/.github/workflows/ci.yml
-|4,39,51,0,1756954718,"~/.github/workflows/ci.yml"
--'  51  0  ~/.github/workflows/ci.yml
-|4,39,51,0,1756954718,"~/.github/workflows/ci.yml"
--'  51  0  ~/.github/workflows/ci.yml
-|4,39,51,0,1756954718,"~/.github/workflows/ci.yml"
--'  1  1  ~/.github/workflows/ci.yml
-|4,39,1,1,1756954711,"~/.github/workflows/ci.yml"
--'  1  1  ~/.github/workflows/ci.yml
-|4,39,1,1,1756954559,"~/.github/workflows/ci.yml"
--'  1  1  ~/.github/workflows/ci.yml
-|4,39,1,1,1756891550,"~/.github/workflows/ci.yml"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  1  0  ~/.docker/config.json
-|4,39,1,0,1756891103,"~/.docker/config.json"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
+|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
+|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
+|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
+-'  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,54,1756957970,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,54,1756957970,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,54,1756957970,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,54,1756957970,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+|4,39,1,0,1756957932,"~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  12  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,12,0,1756957878,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,35,1756957874,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  6  35  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,6,35,1756957540,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/kustomization.yaml
+|4,39,1,0,1756957513,"~/infra-repo/clusters/my-cluster/kustomization.yaml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
+-'  30  0  ~/.github/workflows/update-flux.yml
+|4,39,30,0,1756957485,"~/.github/workflows/update-flux.yml"
 
 # History of marks within files (newest to oldest):
 
+> ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
+	*	1756958014	0
+	"	1	0
+
+> ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
+	*	1756957987	0
+	"	1	0
+
+> ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+	*	1756957969	0
+	"	21	54
+	^	21	55
+	.	21	54
+	+	21	54
+
+> ~/infra-repo/clusters/my-cluster/apps/hello/kustomization.yaml
+	*	1756957920	0
+	"	1	0
+
+> ~/infra-repo/clusters/my-cluster/kustomization.yaml
+	*	1756957876	0
+	"	12	0
+	^	12	0
+	.	11	14
+	+	1	43
+	+	11	14
+
+> ~/.github/workflows/update-flux.yml
+	*	1756957483	0
+	"	30	0
+	^	30	0
+	.	29	51
+	+	29	51
+
 > ~/.github/workflows/ci.yml
-	*	1756955399	0
+	*	1756957450	0
 	"	53	0
 	^	53	0
 	.	52	37
