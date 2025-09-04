@@ -18,7 +18,7 @@ spec:
          - name: ghcr-pull
       containers:
         - name: hello
-          image: ghcr.io/tanvanat/learn-gitop/hello:sha-0000000
+          image: ghcr.io/tanvanat/learn-gitop/hello:dev
           # {"$imagepolicy": "flux-system:hello-policy"}
           ports:
             - name: http
