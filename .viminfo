@@ -12,9 +12,13 @@
 ~h
 # Command Line History (newest to oldest):
 :q
-|2,0,1756891550,,"q"
+|2,0,1756955401,,"q"
+:Q
+|2,0,1756955360,,"Q"
 :wq
-|2,0,1756889958,,"wq"
+|2,0,1756955186,,"wq"
+:%d
+|2,0,1756955180,,"%d"
 
 # Search String History (newest to oldest):
 
@@ -25,36 +29,292 @@
 # Debug Line History (newest to oldest):
 
 # Registers:
+""1	LINE	0
+	name: ci-build-push
+	
+	on:
+	  push:
+	    branches: [ "main" ]
+	  pull_request:
+	  workflow_dispatch:
+	
+	permissions:
+	  contents: read
+	  packages: write   # required for GITHUB_TOKEN -> GHCR
+	
+	env:
+	  REGISTRY: ghcr.io
+	  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/<owner>/<repo>/hello
+	
+	jobs:
+	  build-push:
+	    runs-on: ubuntu-latest
+	
+	    steps:
+	      - name: Checkout
+	        uses: actions/checkout@v4
+	
+	      - name: Setup Buildx
+	        uses: docker/setup-buildx-action@v3
+	
+	      # Login with built-in GITHUB_TOKEN (no PAT needed)
+	      - name: Login to GHCR
+	        uses: docker/login-action@v3
+	        with:
+	          registry: ${{ env.REGISTRY }}
+	          username: ${{ github.actor }}
+	          password: ${{ secrets.GITHUB_TOKEN }}
+	
+	      - name: Prepare tags
+	        id: vars
+	        run: echo "SHA_SHORT=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+	
+	      - name: Build & Push (:sha-XXXXXXX + :main + :dev)
+	        uses: docker/build-push-action@v6
+	        with:
+	          context: ./my-docker-app
+	          push: ${{ github.event_name != 'pull_request' }}  # push on main/workflow_dispatch
+	          tags: |
+	            ${{ env.REGISTRY }}/${{ env.IMAGE }}:sha-${{ steps.vars.outputs.SHA_SHORT }}
+	            ${{ env.REGISTRY }}/${{ env.IMAGE }}:main
+	            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev
+	          cache-from: type=gha
+	          cache-to: type=gha,mode=max
+|3,1,1,1,50,0,1756955180,"name: ci-build-push","","on:","  push:","    branches: [ \"main\" ]","  pull_request:","  workflow_dispatch:","","permissions:","  contents: read","  packages: write   # required for GITHUB_TOKEN -> GHCR","","env:","  REGISTRY: ghcr.io","  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/<owner>/<repo>/hello","","jobs:","  build-push:","    runs-on: ubuntu-latest","","    steps:","      - name: Checkout",>35
+|<"        uses: actions/checkout@v4","","      - name: Setup Buildx","        uses: docker/setup-buildx-action@v3","","      # Login with built-in GITHUB_TOKEN (no PAT needed)","      - name: Login to GHCR","        uses: docker/login-action@v3","        with:","          registry: ${{ env.REGISTRY }}","          username: ${{ github.actor }}","          password: ${{ secrets.GITHUB_TOKEN }}","","      - name: Prepare tags","        id: vars",>68
+|<"        run: echo \"SHA_SHORT=${GITHUB_SHA::7}\" >> $GITHUB_OUTPUT","","      - name: Build & Push (:sha-XXXXXXX + :main + :dev)","        uses: docker/build-push-action@v6","        with:","          context: ./my-docker-app","          push: ${{ github.event_name != 'pull_request' }}  # push on main/workflow_dispatch","          tags: |","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:sha-${{ steps.vars.outputs.SHA_SHORT }}","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:main",>54
+|<"            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev","          cache-from: type=gha","          cache-to: type=gha,mode=max"
+"2	LINE	0
+	name: ci-build-push
+	
+	on:
+	  push:
+	    branches: [ "main" ]
+	  workflow_dispatch:
+	
+	permissions:
+	  contents: read
+	  packages: write
+	
+	env:
+	  REGISTRY: ghcr.io
+	  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/tanvanat/learn-gitop/hello
+	
+	jobs:
+	  build-push:
+	    runs-on: ubuntu-latest
+	
+	    steps:
+	      - name: Checkout
+	        uses: actions/checkout@v4
+	
+	      - name: Setup Buildx
+	        uses: docker/setup-buildx-action@v3
+	
+	      # ใช้ PAT ของ owner เพื่อกันปัญหา scope
+	      - name: Login to GHCR (with PAT)
+	        uses: docker/login-action@v3
+	        with:
+	          registry: ${{ env.REGISTRY }}
+	          username: ${{ github.repository_owner }}        # สำคัญ: owner ของ repo
+	          password: ${{ secrets.GHCR_TOKEN }}             # PAT: write:packages
+	
+	      - name: Prepare tags
+	        id: vars
+	        run: echo "SHA_SHORT=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+	
+	      - name: Build & Push (:dev + :main-<sha>)
+	        uses: docker/build-push-action@v6
+	        with:
+	          context: ./my-docker-app
+	          push: true
+	          no-cache: true
+	          tags: |
+	            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev
+	            ${{ env.REGISTRY }}/${{ env.IMAGE }}:main-${{ steps.vars.outputs.SHA_SHORT }}
+	          labels: |
+	            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+	
+|3,0,2,1,50,0,1756954711,"name: ci-build-push","","on:","  push:","    branches: [ \"main\" ]","  workflow_dispatch:","","permissions:","  contents: read","  packages: write","","env:","  REGISTRY: ghcr.io","  IMAGE: ${{ github.repository }}/hello   # => ghcr.io/tanvanat/learn-gitop/hello","","jobs:","  build-push:","    runs-on: ubuntu-latest","","    steps:","      - name: Checkout","        uses: actions/checkout@v4","","      - name: Setup Buildx",>45
+|<"        uses: docker/setup-buildx-action@v3","","      # ใช้ PAT ของ owner เพื่อกันปัญหา scope","      - name: Login to GHCR (with PAT)","        uses: docker/login-action@v3","        with:","          registry: ${{ env.REGISTRY }}","          username: ${{ github.repository_owner }}        # สำคัญ: owner ของ repo","          password: ${{ secrets.GHCR_TOKEN }}             # PAT: write:packages","","      - name: Prepare tags",>18
+|<"        id: vars","        run: echo \"SHA_SHORT=${GITHUB_SHA::7}\" >> $GITHUB_OUTPUT","","      - name: Build & Push (:dev + :main-<sha>)","        uses: docker/build-push-action@v6","        with:","          context: ./my-docker-app","          push: true","          no-cache: true","          tags: |","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev","            ${{ env.REGISTRY }}/${{ env.IMAGE }}:main-${{ steps.vars.outputs.SHA_SHORT }}","          labels: |",>89
+|<"            org.opencontainers.image.source=https://github.com/${{ github.repository }}",""
 
 # File marks:
-'0  1  1  ~/.github/workflows/ci.yml
-|4,48,1,1,1756891550,"~/.github/workflows/ci.yml"
-'1  1  0  ~/.docker/config.json
-|4,49,1,0,1756891103,"~/.docker/config.json"
-'2  2  78  ~/my-docker-app/Dockerfile
-|4,50,2,78,1756891071,"~/my-docker-app/Dockerfile"
-'3  1  0  ~/my-docker-app/package.json
-|4,51,1,0,1756891050,"~/my-docker-app/package.json"
-'4  2  78  ~/my-docker-app/Dockerfile
-|4,52,2,78,1756889958,"~/my-docker-app/Dockerfile"
-'5  2  189  ~/my-docker-app/test.sh
-|4,53,2,189,1756886255,"~/my-docker-app/test.sh"
-'6  2  0  ~/my-docker-app/test.sh
-|4,54,2,0,1756886068,"~/my-docker-app/test.sh"
-'7  1  1  ~/.github/workflows/ci.yml
-|4,55,1,1,1756885775,"~/.github/workflows/ci.yml"
-'8  41  0  ~/.github/workflows/ci.yml
-|4,56,41,0,1756885477,"~/.github/workflows/ci.yml"
-'9  39  0  ~/.github/workflows/ci.yml
-|4,57,39,0,1756885477,"~/.github/workflows/ci.yml"
+'0  53  0  ~/.github/workflows/ci.yml
+|4,48,53,0,1756955401,"~/.github/workflows/ci.yml"
+'1  53  0  ~/.github/workflows/ci.yml
+|4,49,53,0,1756955362,"~/.github/workflows/ci.yml"
+'2  53  0  ~/.github/workflows/ci.yml
+|4,50,53,0,1756955186,"~/.github/workflows/ci.yml"
+'3  53  0  ~/.github/workflows/ci.yml
+|4,51,53,0,1756955186,"~/.github/workflows/ci.yml"
+'4  1  0  ~/.github/workflows/ci.yml
+|4,52,1,0,1756954718,"~/.github/workflows/ci.yml"
+'5  51  0  ~/.github/workflows/ci.yml
+|4,53,51,0,1756954718,"~/.github/workflows/ci.yml"
+'6  1  0  ~/.github/workflows/ci.yml
+|4,54,1,0,1756954718,"~/.github/workflows/ci.yml"
+'7  51  0  ~/.github/workflows/ci.yml
+|4,55,51,0,1756954718,"~/.github/workflows/ci.yml"
+'8  1  0  ~/.github/workflows/ci.yml
+|4,56,1,0,1756954718,"~/.github/workflows/ci.yml"
+'9  51  0  ~/.github/workflows/ci.yml
+|4,57,51,0,1756954718,"~/.github/workflows/ci.yml"
 
 # Jumplist (newest first):
+-'  53  0  ~/.github/workflows/ci.yml
+|4,39,53,0,1756955401,"~/.github/workflows/ci.yml"
+-'  53  0  ~/.github/workflows/ci.yml
+|4,39,53,0,1756955362,"~/.github/workflows/ci.yml"
+-'  53  0  ~/.github/workflows/ci.yml
+|4,39,53,0,1756955186,"~/.github/workflows/ci.yml"
+-'  1  0  ~/.github/workflows/ci.yml
+|4,39,1,0,1756955180,"~/.github/workflows/ci.yml"
+-'  1  0  ~/.github/workflows/ci.yml
+|4,39,1,0,1756955180,"~/.github/workflows/ci.yml"
+-'  1  0  ~/.github/workflows/ci.yml
+|4,39,1,0,1756955180,"~/.github/workflows/ci.yml"
+-'  51  0  ~/.github/workflows/ci.yml
+|4,39,51,0,1756954718,"~/.github/workflows/ci.yml"
+-'  51  0  ~/.github/workflows/ci.yml
+|4,39,51,0,1756954718,"~/.github/workflows/ci.yml"
+-'  51  0  ~/.github/workflows/ci.yml
+|4,39,51,0,1756954718,"~/.github/workflows/ci.yml"
+-'  1  1  ~/.github/workflows/ci.yml
+|4,39,1,1,1756954711,"~/.github/workflows/ci.yml"
+-'  1  1  ~/.github/workflows/ci.yml
+|4,39,1,1,1756954559,"~/.github/workflows/ci.yml"
 -'  1  1  ~/.github/workflows/ci.yml
 |4,39,1,1,1756891550,"~/.github/workflows/ci.yml"
 -'  1  0  ~/.docker/config.json
 |4,39,1,0,1756891103,"~/.docker/config.json"
 -'  1  0  ~/.docker/config.json
 |4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
+-'  1  0  ~/.docker/config.json
+|4,39,1,0,1756891103,"~/.docker/config.json"
 -'  2  78  ~/my-docker-app/Dockerfile
 |4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
@@ -63,203 +323,58 @@
 |4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
 |4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
--'  1  0  ~/my-docker-app/package.json
-|4,39,1,0,1756891050,"~/my-docker-app/package.json"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 -'  2  78  ~/my-docker-app/Dockerfile
-|4,39,2,78,1756889958,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  1  0  ~/my-docker-app/Dockerfile
-|4,39,1,0,1756889927,"~/my-docker-app/Dockerfile"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  189  ~/my-docker-app/test.sh
-|4,39,2,189,1756886255,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  2  0  ~/my-docker-app/test.sh
-|4,39,2,0,1756886068,"~/my-docker-app/test.sh"
--'  10  0  ~/my-docker-app/test.sh
-|4,39,10,0,1756885936,"~/my-docker-app/test.sh"
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
+-'  2  78  ~/my-docker-app/Dockerfile
+|4,39,2,78,1756891071,"~/my-docker-app/Dockerfile"
 
 # History of marks within files (newest to oldest):
 
 > ~/.github/workflows/ci.yml
-	*	1756891401	0
-	"	1	1
-	^	1	2
-	.	1	1
+	*	1756955399	0
+	"	53	0
+	^	53	0
+	.	52	37
 	+	1	206
-	+	2	0
-	+	1	1
+	+	1	0
+	+	1	19
+	+	52	37
 
 > ~/.docker/config.json
 	*	1756891101	0
