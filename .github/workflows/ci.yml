@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: read
-  packages: write   # required for GITHUB_TOKEN -> GHCR
+  packages: write   # harmless to keep even when using PAT
 
 env:
   REGISTRY: ghcr.io
@@ -25,13 +25,13 @@ jobs:
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Login with built-in GITHUB_TOKEN (no PAT needed)
-      - name: Login to GHCR
+      # 🔐 Login with a PAT stored as GHCR_TOKEN (scopes: write:packages, read:packages)
+      - name: Login to GHCR (with PAT)
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.repository_owner }}   # or 'tanvanat'
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Prepare tags
         id: vars
@@ -46,6 +46,8 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE }}:sha-${{ steps.vars.outputs.SHA_SHORT }}
             ${{ env.REGISTRY }}/${{ env.IMAGE }}:main
             ${{ env.REGISTRY }}/${{ env.IMAGE }}:dev
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
