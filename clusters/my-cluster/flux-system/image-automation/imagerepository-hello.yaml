@@ -1,0 +1,11 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: hello
+  namespace: flux-system
+spec:
+  image: ghcr.io/tanvanat/learn-gitop/hello
+  interval: 1m
+  # keep this if GHCR package is private and you've created the secret:
+  secretRef:
+    name: ghcr-credentials

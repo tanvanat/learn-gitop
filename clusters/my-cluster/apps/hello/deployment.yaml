@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+  namespace: default
+  labels:
+    app: hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      # Uncomment if your GHCR is private and you've created the pull secret in 'default'
+      # imagePullSecrets:
+      #   - name: ghcr-pull
+      containers:
+        - name: hello
+          image: ghcr.io/tanvanat/learn-gitop/hello:sha-0000000
+          # {"$imagepolicy": "flux-system:hello-policy"}
+          ports:
+            - name: http
+              containerPort: 3000

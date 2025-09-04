@@ -1,0 +1,24 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageUpdateAutomation
+metadata:
+  name: hello-auto
+  namespace: flux-system
+spec:
+  interval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        name: flux-bot
+        email: bot@example.com
+      messageTemplate: "chore: update hello image to {{range .Updated.Images}}{{.NewTag}}{{end}}"
+    push:
+      branch: main
+  update:
+    strategy: Setters
+    path: ./clusters/my-cluster
