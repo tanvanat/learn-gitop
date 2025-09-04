@@ -15,7 +15,7 @@
 
 # Command Line History (newest to oldest):
 :wq
-|2,0,1756971895,,"wq"
+|2,0,1756975497,,"wq"
 :%d
 |2,0,1756971889,,"%d"
 :q
@@ -165,32 +165,42 @@
 |<"            org.opencontainers.image.source=https://github.com/${{ github.repository }}",""
 
 # File marks:
-'0  13  0  ~/my-docker-app/Dockerfile
-|4,48,13,0,1756971895,"~/my-docker-app/Dockerfile"
-'1  1  11  ~/my-docker-app/Dockerfile
-|4,49,1,11,1756971782,"~/my-docker-app/Dockerfile"
-'2  2  11  ~/my-docker-app/Dockerfile
-|4,50,2,11,1756971782,"~/my-docker-app/Dockerfile"
-'3  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
-|4,51,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
-'4  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
-|4,52,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+'0  7  4  ~/.gitignore
+|4,48,7,4,1756975497,"~/.gitignore"
+'1  13  0  ~/my-docker-app/Dockerfile
+|4,49,13,0,1756971895,"~/my-docker-app/Dockerfile"
+'2  1  11  ~/my-docker-app/Dockerfile
+|4,50,1,11,1756971782,"~/my-docker-app/Dockerfile"
+'3  2  11  ~/my-docker-app/Dockerfile
+|4,51,2,11,1756971782,"~/my-docker-app/Dockerfile"
+'4  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,52,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 '5  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
 |4,53,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
-'6  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
-|4,54,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
-'7  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,55,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
-'8  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,56,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
-'9  21  54  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
-|4,57,21,54,1756957970,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+'6  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,54,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+'7  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,55,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+'8  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
+|4,56,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
+'9  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
+|4,57,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
 
 # Jumplist (newest first):
+-'  7  4  ~/.gitignore
+|4,39,7,4,1756975497,"~/.gitignore"
+-'  1  0  ~/.gitignore
+|4,39,1,0,1756975489,"~/.gitignore"
+-'  13  0  ~/my-docker-app/Dockerfile
+|4,39,13,0,1756971895,"~/my-docker-app/Dockerfile"
 -'  13  0  ~/my-docker-app/Dockerfile
 |4,39,13,0,1756971895,"~/my-docker-app/Dockerfile"
 -'  1  11  ~/my-docker-app/Dockerfile
 |4,39,1,11,1756971889,"~/my-docker-app/Dockerfile"
+-'  1  11  ~/my-docker-app/Dockerfile
+|4,39,1,11,1756971889,"~/my-docker-app/Dockerfile"
+-'  2  11  ~/my-docker-app/Dockerfile
+|4,39,2,11,1756971782,"~/my-docker-app/Dockerfile"
 -'  2  11  ~/my-docker-app/Dockerfile
 |4,39,2,11,1756971782,"~/my-docker-app/Dockerfile"
 -'  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
@@ -201,6 +211,14 @@
 |4,39,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
 |4,39,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  23  63  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,23,63,1756963652,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
 |4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
@@ -209,6 +227,22 @@
 |4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
 |4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963603,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
 |4,39,20,5,1756963321,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  20  5  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
@@ -233,6 +267,54 @@
 |4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
 -'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
 |4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  21  16  ~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml
+|4,39,21,16,1756963246,"~/infra-repo/clusters/my-cluster/apps/hello/deployment.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
+-'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
+|4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
 -'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
 |4,39,1,0,1756959080,"~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml"
 -'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/gotk-components.yaml
@@ -305,90 +387,15 @@
 |4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
 -'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
 |4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml
-|4,39,1,0,1756958025,"~/infra-repo/clusters/my-cluster/flux-system/image-automation/imagerepository-hello.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
--'  1  0  ~/infra-repo/clusters/my-cluster/apps/hello/service.yaml
-|4,39,1,0,1756957988,"~/infra-repo/clusters/my-cluster/apps/hello/service.yaml"
 
 # History of marks within files (newest to oldest):
+
+> ~/.gitignore
+	*	1756975496	0
+	"	7	4
+	^	7	5
+	.	8	0
+	+	8	0
 
 > ~/my-docker-app/Dockerfile
 	*	1756971894	0
